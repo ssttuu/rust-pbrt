@@ -1,20 +1,20 @@
 use std::f64;
 
-use geometry::vector::Vector3;
+use pbrt::geometry::Vector3f;
 
 
 #[derive(Clone, Copy)]
 pub struct Sphere {
-    center: Vector3<f64>,
+    center: Vector3f,
     radius: f64,
 }
 
 impl Sphere {
-    pub fn new(center: Vector3<f64>, radius: f64) -> Sphere {
+    pub fn new(center: Vector3f, radius: f64) -> Sphere {
         Sphere { center, radius }
     }
 
-    pub fn center(&self) -> Vector3<f64> {
+    pub fn center(&self) -> Vector3f {
         self.center
     }
 
@@ -22,7 +22,7 @@ impl Sphere {
         self.radius
     }
 
-    pub fn intersects(&self, origin: &Vector3<f64>, direction: &Vector3<f64>) -> (f64, f64, bool) {
+    pub fn intersects(&self, origin: &Vector3f, direction: &Vector3f) -> (f64, f64, bool) {
         let l = self.center() - *origin;
         let tca = l.dot(direction);
 

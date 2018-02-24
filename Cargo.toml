@@ -7,3 +7,5 @@ authors = [ "stupschwartz@gmail.com" ]
 [dependencies]
 num-traits = "0.2"
 image = "*"
+generic-array = "0.10.0"
+typenum = "*"

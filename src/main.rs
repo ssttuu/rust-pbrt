@@ -1,13 +1,15 @@
-mod geometry;
+mod pbrt;
 
 extern crate image;
 extern crate num_traits;
+extern crate generic_array;
+extern crate typenum;
 
 use std::f64;
 use std::fs::File;
 
-use geometry::vector::Vector3;
-use geometry::sphere::Sphere;
+use pbrt::geometry::vector::Vector3;
+use pbrt::geometry::sphere::Sphere;
 
 
 pub struct CameraSettings {
@@ -94,7 +96,7 @@ fn main() {
 		}
 	}
 
-    let camera = CameraSettings::new(1920, 1080);
+    let camera = CameraSettings::new(192, 108);
     let origin = Vector3::new(0.0, 0.0, 0.0);
 
     let imgbuf = image::ImageBuffer::from_fn(camera.width as u32, camera.height as u32, |x, y| {
@@ -106,12 +108,9 @@ fn main() {
         let nor2 = ray_dir.length_squared();
         if nor2 > 0.0 {
             let inv_nor = 1.0 / nor2.sqrt();
-            let new_x = inv_nor * ray_dir.x();
-            let new_y = inv_nor * ray_dir.y();
-            let new_z = inv_nor * ray_dir.z();
-            ray_dir.set_x(new_x);
-            ray_dir.set_y(new_y);
-            ray_dir.set_z(new_z);
+            ray_dir.x *= inv_nor;
+            ray_dir.y *= inv_nor;
+            ray_dir.z *= inv_nor;
         }
 
         return trace(origin, ray_dir, &spheres, 0);
